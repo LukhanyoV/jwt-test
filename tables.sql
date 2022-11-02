@@ -8,5 +8,6 @@ CREATE TABLE todolist (
     id SERIAL PRIMARY KEY,
     item TEXT,
     author INT NOT NULL,
+    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (author) REFERENCES users(id)
 );

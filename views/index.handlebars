@@ -1,29 +1,60 @@
-<div class="container">
-    <div class="row">
-        <div class="col-6">
-            <h1>Todo App</h1>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <form method="post">
-                <div class="form-control">
-                    <label for="username">Item</label>
-                    <input type="text" class="form-input" name="item">
+<div class="container content">
+    <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h2>uBusy - Chat</h2>
+                        <div class="d-flex justify-content-between">
+                            <a href="/logout">
+                                <button class="btn btn-light">
+                                <img style="width: 20px;" title="logout button" src="/img/exit.png">
+                                logout
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <button class="btn btn-primary">Add</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-6">
-            <div class="list">
-                <div class="row">
-                    <h3>Item Name</h3>
+                <div class="card-body height3">
+                    <ul class="chat-list">
+                        {{#each data}}
+                        <li class="{{side mine}}">
+                            <div class="chat-img">
+                                <img alt="Avtar" src="/img/test.png">
+                            </div>
+                            <div class="chat-body">
+                                <div class="chat-message">
+                                    <h5>{{username}}</h5>
+                                    <p>{{item}}</p>
+                                    <span>{{created}}</span>
+                                </div>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <form class="d-flex justify-content-between" method="post">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Enter message" name="item">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <button type="submit" class="btn btn-primary">SEND</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        var element = document.querySelector(".chat-list");
+        element.scrollTop = element.scrollHeight;
+    })
+</script>

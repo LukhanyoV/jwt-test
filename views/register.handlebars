@@ -9,6 +9,15 @@
                     <div class="logo mb-3">
                         <div class="col-md-12 text-center">
                             <h2>Register</h2>
+                            {{#if messages.success}}
+                            <p class="text-success flash-msg">{{messages.success}}</p>
+                            {{/if}}
+                            {{#if messages.error}}
+                            <p class="text-danger flash-msg">{{messages.error}}</p>
+                            {{/if}}
+                            {{#if messages.info}}
+                            <p class="text-info flash-msg">{{messages.info}}</p>
+                            {{/if}}
                         </div>
                     </div>
                     <form action="" method="post" name="login">

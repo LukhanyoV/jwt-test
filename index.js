@@ -19,6 +19,7 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: true
 }))
+app.use(require("express-flash")())
 app.use((req, res, next) => {
     const auth = ["/login", "/register"]
     const token = req.cookies.token
@@ -35,10 +36,12 @@ app.use((req, res, next) => {
             if(auth.includes(req.path)){
                 return next()
             } else {
+                req.flash("info", "Please login and try again")
                 return res.redirect("/login")
             }
         }
     } catch (error) {
+        req.flash("error", "Something went wrong")
         res.clearCookie("token")
         return res.redirect("/login")
     }
@@ -94,7 +97,11 @@ app.post("/login", async (req, res) => {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production"
             })
+        } else {
+            req.flash("error", "Invalid username and password combination")
         }
+    } else {
+        req.flash("error", "Please enter username and password")
     }
     res.redirect("back")
 })
@@ -111,12 +118,18 @@ app.post("/register", async (req, res) => {
         let check = await db.one("SELECT COUNT(*) FROM users WHERE username = $1", [username])
         if(check.count-"" === 0){
             await db.none("INSERT INTO users (username, password) VALUES ($1, $2)", [username, password])
+            req.flash("success", "Account registered successfully")
+        } else {
+            req.flash("error", "Username has already been taken")
         }
+    } else {
+        req.flash("error", "Please enter username and password")
     }
     res.redirect("back")
 })
 
 app.get("/logout", async (req, res) => {
+    req.flash("info", "You have been logged out")
     res.clearCookie("token")
     res.redirect("/login")
 })
